@@ -4,9 +4,9 @@ Teste prático da Infortech utilizando Java e MySQL.
 ## Implemente
 Crie uma classe chamada Consumo Combustível com, no mínimo, três atributos:
 
-- [] Número de série: número sequencial definido automaticamente quando um carro é fabricado;
-- [] Capacidade: indica o número máximo de litros que o tanque suporta;
-- [] Portador: o responsável pelo carro;
+- [x] Número de série: número sequencial definido automaticamente quando um carro é fabricado;
+- [x] Capacidade: indica o número máximo de litros que o tanque suporta;
+- [x] Portador: o responsável pelo carro;
 
 E três métodos:
 
