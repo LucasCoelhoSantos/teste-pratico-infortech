@@ -10,14 +10,24 @@ Crie uma classe chamada Consumo Combustível com, no mínimo, três atributos:
 
 E três métodos:
 
-- [] Abastecer: que recebe o número de litros que serão inseridos no carro;
-- [] Rodar: que informa a quantidade de litros utilizado se houver combustível disponível (porém, trava a partida se for chamado sem combustível);
-- [] Contar: que conta o número de litros disponíveis no carro;
+- [x] Abastecer: que recebe o número de litros que serão inseridos no carro;
+- [x] Rodar: que informa a quantidade de litros utilizado se houver combustível disponível (porém, trava a partida se for chamado sem combustível);
+- [x] Contar: que conta o número de litros disponíveis no carro;
 
 Em seguida, crie uma classe chamada Principal que:
 
-- [] Crie três carros de portadores quaisquer diferentes (um com capacidade para 50 litros, outro para 55 e o último para 40);
-- [] Carregue todas com quantidades informadas pelo usuário e dispare continuamente todas;
+- [x] Crie três carros de portadores quaisquer diferentes (um com capacidade para 50 litros, outro para 55 e o último para 40);
+- [x] Carregue todas com quantidades informadas pelo usuário e dispare continuamente todas;
 
 Crie uma camada de persistência com:
-- [] Incluir, alterar e Excluir para a classe Consumo Combustível para que os dados possam ser atualizados.
+- [x] Incluir, alterar e Excluir para a classe Consumo Combustível para que os dados possam ser atualizados.
+
+### Observações
+
+- O consumo médio dos carros é de 1 litro a cada 2km já que não foi especificado.
+
+## Tencnologias utilizadas
+
+- Java (JavaSE-17)
+- Xampp (8.2.4) para Windows
+- MySQL Workbench (8.0 CE) para Windows
