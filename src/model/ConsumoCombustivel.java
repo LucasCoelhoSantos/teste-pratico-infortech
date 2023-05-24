@@ -18,6 +18,12 @@ public class ConsumoCombustivel {
         this.combustivelDisponivel = 0;
     }
     
+    public ConsumoCombustivel(int numeroDeSerie, double capacidade, String portador) {
+        this.numeroDeSerie = numeroDeSerie;
+    	this.capacidade = capacidade;
+        this.portador = portador;
+    }
+    
     public ConsumoCombustivel(int numeroDeSerie, double capacidade, String portador, double combustivelDisponivel) {
         this.numeroDeSerie = numeroDeSerie;
     	this.capacidade = capacidade;
