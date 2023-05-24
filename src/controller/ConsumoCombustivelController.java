@@ -133,7 +133,11 @@ public class ConsumoCombustivelController {
 			
 				if (consumoCombustivelView.getViewCapacidade() == -1.0) {
 					consumoCombustivelView.mostrarMensagem("Valor inválido!");
-				} else {
+				}
+				else if (consumoCombustivelView.getViewPortador() == null || consumoCombustivelView.getViewPortador() == "") {
+					consumoCombustivelView.mostrarMensagem("Por favor insira um portador!");
+				}
+				else {
 			    	consumoCombustivelDAO.inserir(consumo);
 			    	
 			    	consumoCombustivelView.limparCampos();
