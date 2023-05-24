@@ -1,8 +1,5 @@
 package view;
 
-import model.ConsumoCombustivel;
-import controller.ConsumoCombustivelController;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,8 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.GridLayout;
 
 public class ConsumoCombustivelView extends JFrame {
-	private ConsumoCombustivelController consumoCombustivelcontroller;
-	
 	private int numeroDeSerieSelecionado;
 	private JTable tabela;
 	private DefaultTableModel modeloTabela;
@@ -160,22 +155,30 @@ public class ConsumoCombustivelView extends JFrame {
         return null;
     }
 	
-    public int getNumeroDeSerieSelecionado() {
+    public int getViewNumeroDeSerieSelecionado() {
         return numeroDeSerieSelecionado;
     }
     
-    public ConsumoCombustivel obterInserirConsumo() {
-    	String capacidade = capacidadeTextField.getText();
-    	String portador = portadorTextField.getText();
-    	return new ConsumoCombustivel(Double.parseDouble(capacidade), portador);
+    public double getViewCapacidade() {
+        String texto = capacidadeTextField.getText();
+        try {
+        	return Double.parseDouble(texto);        	
+        } catch (NumberFormatException e) {
+        	return -1.0;
+        }
     }
     
-    public ConsumoCombustivel obterEditarConsumo() {
-    	int numeroDeSerie = getNumeroDeSerieSelecionado();
-    	String capacidade = capacidadeTextField.getText();
-    	String portador = portadorTextField.getText();
-    	String combustivelDisponivel = combustivelDisponivelTextField.getText();
-    	return new ConsumoCombustivel(numeroDeSerie, Double.parseDouble(capacidade), portador, Double.parseDouble(combustivelDisponivel));
+    public String getViewPortador() {
+        return portadorTextField.getText();
+    }
+    
+    public double getViewCombustivelDisponivel() {
+        String texto = combustivelDisponivelTextField.getText();
+        try {
+        	return Double.parseDouble(texto);        	
+        } catch (NumberFormatException e) {
+        	return -1.0;
+        }
     }
     
     public double getLitrosAbastecer() {

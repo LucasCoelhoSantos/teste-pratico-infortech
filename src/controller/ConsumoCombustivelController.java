@@ -18,6 +18,14 @@ public class ConsumoCombustivelController {
 		consumoCombustivelView = new ConsumoCombustivelView();
 		consumoCombustivelDAO = new ConsumoCombustivelDAO();
 		
+		// Cria três carros de portadores quaisquer diferentes (um com capacidade para 50 litros, outro para 55 e o último para 40);
+		ConsumoCombustivel consumoCombustivel1 = new ConsumoCombustivel(50.0, "Portador 1");
+		consumoCombustivelDAO.inserir(consumoCombustivel1);
+	    ConsumoCombustivel consumoCombustivel2 = new ConsumoCombustivel(55.0, "Portador 2");
+	    consumoCombustivelDAO.inserir(consumoCombustivel2);
+	    ConsumoCombustivel consumoCombustivel3 = new ConsumoCombustivel(40.0, "Portador 3");
+	    consumoCombustivelDAO.inserir(consumoCombustivel3);
+		
 		consumoCombustivelView.actionListenerAbastecer(new AbastecerListener());
 		consumoCombustivelView.actionListenerPercorrer(new PercorrerListener());
 		
@@ -47,7 +55,7 @@ public class ConsumoCombustivelController {
 	public class AbastecerListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ConsumoCombustivel consumo = consumoCombustivelView.obterEditarConsumo();
+			ConsumoCombustivel consumo = new ConsumoCombustivel(consumoCombustivelView.getViewNumeroDeSerieSelecionado(), consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador());
 			double litros = consumoCombustivelView.getLitrosAbastecer();
 			
 			if (litros == -1.0) {
@@ -72,7 +80,7 @@ public class ConsumoCombustivelController {
 	public class PercorrerListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ConsumoCombustivel consumo = consumoCombustivelView.obterEditarConsumo();
+			ConsumoCombustivel consumo = new ConsumoCombustivel(consumoCombustivelView.getViewNumeroDeSerieSelecionado(), consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador(), consumoCombustivelView.getViewCombustivelDisponivel());
 			double distancia = consumoCombustivelView.getDistanciaPercorrer();
 			double litrosUtilizados = consumo.rodar(distancia);
 			double combustivelDisponivel = consumo.contar();
@@ -106,12 +114,7 @@ public class ConsumoCombustivelController {
 	public class InsereListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ConsumoCombustivel consumo = consumoCombustivelView.obterInserirConsumo();
-			System.out.println(consumo.getNumeroDeSerie());
-			System.out.println(consumo.getCapacidade());
-			System.out.println(consumo.getPortador());
-			System.out.println(consumo.contar());
-			System.out.println(consumo.getCombustivelDisponivel());
+			ConsumoCombustivel consumo = new ConsumoCombustivel(consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador());
 	    	consumoCombustivelDAO.inserir(consumo);
 	    	
 	    	consumoCombustivelView.limparCampos();
@@ -123,8 +126,8 @@ public class ConsumoCombustivelController {
 	public class EditarListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-	        int numeroDeSerie = consumoCombustivelView.getNumeroDeSerieSelecionado();
-	        ConsumoCombustivel consumoAtualizado = consumoCombustivelView.obterEditarConsumo();
+	        int numeroDeSerie = consumoCombustivelView.getViewNumeroDeSerieSelecionado();
+	        ConsumoCombustivel consumoAtualizado = new ConsumoCombustivel(consumoCombustivelView.getViewNumeroDeSerieSelecionado(), consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador());
 	        consumoAtualizado.setNumeroDeSerie(numeroDeSerie);
 
 	        consumoCombustivelDAO.update(consumoAtualizado);
@@ -138,7 +141,7 @@ public class ConsumoCombustivelController {
 	public class DeletarListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int numeroDeSerie = consumoCombustivelView.getNumeroDeSerieSelecionado();
+			int numeroDeSerie = consumoCombustivelView.getViewNumeroDeSerieSelecionado();
 			consumoCombustivelDAO.delete(numeroDeSerie);
 			
 			consumoCombustivelView.limparCampos();
