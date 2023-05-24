@@ -26,7 +26,7 @@ Crie uma camada de persistência com:
 
 - O consumo médio dos carros é de 1 litro a cada 2km já que não foi especificado.
 
-- Não compreendi o que era esperado do trecho: "... e dispare continuamente todas;", portanto instânciei 
+- Não compreendi o que era esperado do trecho: "... e dispare continuamente todas;", portanto instânciei os três carros e deixei com que o usuário decida abastecer ou percorrer alguma distância
 
 ## Tencnologias utilizadas
 
