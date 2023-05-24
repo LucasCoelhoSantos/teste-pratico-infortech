@@ -55,27 +55,30 @@ public class ConsumoCombustivelController {
 	
 	public class AbastecerListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			ConsumoCombustivel consumo = new ConsumoCombustivel(consumoCombustivelView.getViewNumeroDeSerieSelecionado(), consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador());
-			double litros = consumoCombustivelView.getLitrosAbastecer();
-			
-			if (litros == -1.0) {
-				consumoCombustivelView.mostrarMensagem("Valor inválido!");
-			}
-			else if (litros <= 0) {
-				consumoCombustivelView.mostrarMensagem("Nada foi abastecido!");
-			}
-			else if (litros > consumo.getCapacidade()) {
-				consumoCombustivelView.mostrarMensagem("Não é possível abastecer mais do que a capacidade do tanque!");
-			}
-			else {
-				consumo.abastecer(litros);
-		        consumoCombustivelDAO.update(consumo);
-		        
-		        consumoCombustivelView.limparCampos();
-		        consumoCombustivelView.setEnableBotoes(false);
-		        atualizarListaConsumoCombustivel();
-		        consumoCombustivelView.mostrarMensagem("Abastecido " + litros + " litros com sucesso!");
+		public void actionPerformed(ActionEvent e) {			
+			int respostaAdicionar = consumoCombustivelView.exibirPopUpConfirmacao("Deseja abastecer o carro?", "Confirmação");
+			if (respostaAdicionar == 0) {
+				ConsumoCombustivel consumo = new ConsumoCombustivel(consumoCombustivelView.getViewNumeroDeSerieSelecionado(), consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador());
+				double litros = consumoCombustivelView.getLitrosAbastecer();
+				
+				if (litros == -1.0) {
+					consumoCombustivelView.mostrarMensagem("Valor inválido!");
+				}
+				else if (litros <= 0) {
+					consumoCombustivelView.mostrarMensagem("Nada foi abastecido!");
+				}
+				else if (litros > consumo.getCapacidade()) {
+					consumoCombustivelView.mostrarMensagem("Não é possível abastecer mais do que a capacidade do tanque!");
+				}
+				else {
+					consumo.abastecer(litros);
+			        consumoCombustivelDAO.update(consumo);
+			        
+			        consumoCombustivelView.limparCampos();
+			        consumoCombustivelView.setEnableBotoes(false);
+			        atualizarListaConsumoCombustivel();
+			        consumoCombustivelView.mostrarMensagem("Abastecido " + litros + " litros com sucesso!");
+				}
 			}
 		}
 	}
@@ -83,28 +86,31 @@ public class ConsumoCombustivelController {
 	public class PercorrerListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ConsumoCombustivel consumo = new ConsumoCombustivel(consumoCombustivelView.getViewNumeroDeSerieSelecionado(), consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador(), consumoCombustivelView.getViewCombustivelDisponivel());
-			double distancia = consumoCombustivelView.getDistanciaPercorrer();
-			double litrosUtilizados = consumo.rodar(distancia);
-			double combustivelDisponivel = consumo.contar();
-            
-            if (distancia == -1.0) {
-            	consumoCombustivelView.mostrarMensagem("Valor inválido!");
-            }
-            else if (distancia <= 0) {
-            	consumoCombustivelView.mostrarMensagem("Nada foi percorrido!");
-            }
-            else if (litrosUtilizados > combustivelDisponivel) {
-            	consumoCombustivelView.mostrarMensagem("Não há combustível suficiente para percorrer a distância.");
-            } else {
-            	consumo.setCombustivelDisponivel(combustivelDisponivel - litrosUtilizados);
-            	consumoCombustivelDAO.update(consumo);
-            	
-            	consumoCombustivelView.limparCampos();
-            	consumoCombustivelView.setEnableBotoes(false);
-            	atualizarListaConsumoCombustivel();
-            	consumoCombustivelView.mostrarMensagem("Carro de " + consumo.getPortador() + " percorreu a distância com sucesso! Litros utilizados: " + litrosUtilizados);
-            }
+			int respostaAdicionar = consumoCombustivelView.exibirPopUpConfirmacao("Deseja percorrer com o carro?", "Confirmação");
+			if (respostaAdicionar == 0) {
+				ConsumoCombustivel consumo = new ConsumoCombustivel(consumoCombustivelView.getViewNumeroDeSerieSelecionado(), consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador(), consumoCombustivelView.getViewCombustivelDisponivel());
+				double distancia = consumoCombustivelView.getDistanciaPercorrer();
+				double litrosUtilizados = consumo.rodar(distancia);
+				double combustivelDisponivel = consumo.contar();
+	            
+	            if (distancia == -1.0) {
+	            	consumoCombustivelView.mostrarMensagem("Valor inválido!");
+	            }
+	            else if (distancia <= 0) {
+	            	consumoCombustivelView.mostrarMensagem("Nada foi percorrido!");
+	            }
+	            else if (litrosUtilizados > combustivelDisponivel) {
+	            	consumoCombustivelView.mostrarMensagem("Não há combustível suficiente para percorrer a distância.");
+	            } else {
+	            	consumo.setCombustivelDisponivel(combustivelDisponivel - litrosUtilizados);
+	            	consumoCombustivelDAO.update(consumo);
+	            	
+	            	consumoCombustivelView.limparCampos();
+	            	consumoCombustivelView.setEnableBotoes(false);
+	            	atualizarListaConsumoCombustivel();
+	            	consumoCombustivelView.mostrarMensagem("O carro percorreu a distância com sucesso! Litros utilizados: " + litrosUtilizados);
+	            }
+			}
 		}
 	}
 	
@@ -121,17 +127,20 @@ public class ConsumoCombustivelController {
 	public class InsereListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			ConsumoCombustivel consumo = new ConsumoCombustivel(consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador());
+			int respostaAdicionar = consumoCombustivelView.exibirPopUpConfirmacao("Deseja adicionar o carro?", "Confirmação");
+			if (respostaAdicionar == 0) {
+				ConsumoCombustivel consumo = new ConsumoCombustivel(consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador());
 			
-			if (consumoCombustivelView.getViewCapacidade() == -1.0) {
-				consumoCombustivelView.mostrarMensagem("Valor inválido!");
-			} else {
-		    	consumoCombustivelDAO.inserir(consumo);
-		    	
-		    	consumoCombustivelView.limparCampos();
-		    	consumoCombustivelView.setEnableBotoes(false);
-		    	atualizarListaConsumoCombustivel();
-		    	consumoCombustivelView.mostrarMensagem("Carro adicionado com sucesso!");
+				if (consumoCombustivelView.getViewCapacidade() == -1.0) {
+					consumoCombustivelView.mostrarMensagem("Valor inválido!");
+				} else {
+			    	consumoCombustivelDAO.inserir(consumo);
+			    	
+			    	consumoCombustivelView.limparCampos();
+			    	consumoCombustivelView.setEnableBotoes(false);
+			    	atualizarListaConsumoCombustivel();
+			    	consumoCombustivelView.mostrarMensagem("Carro adicionado com sucesso!");
+				}
 			}
 		}
 	}
@@ -139,29 +148,35 @@ public class ConsumoCombustivelController {
 	public class EditarListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-	        int numeroDeSerie = consumoCombustivelView.getViewNumeroDeSerieSelecionado();
-	        ConsumoCombustivel consumoAtualizado = new ConsumoCombustivel(consumoCombustivelView.getViewNumeroDeSerieSelecionado(), consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador());
-	        consumoAtualizado.setNumeroDeSerie(numeroDeSerie);
-
-	        consumoCombustivelDAO.update(consumoAtualizado);
-	        
-	        consumoCombustivelView.limparCampos();
-	        consumoCombustivelView.setEnableBotoes(false);
-	        atualizarListaConsumoCombustivel();
-	        consumoCombustivelView.mostrarMensagem("Carro editado com sucesso!");
+	        int respostaAdicionar = consumoCombustivelView.exibirPopUpConfirmacao("Deseja editar o carro?", "Confirmação");
+			if (respostaAdicionar == 0) {
+				int numeroDeSerie = consumoCombustivelView.getViewNumeroDeSerieSelecionado();
+				ConsumoCombustivel consumoAtualizado = new ConsumoCombustivel(consumoCombustivelView.getViewNumeroDeSerieSelecionado(), consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador());
+		        consumoAtualizado.setNumeroDeSerie(numeroDeSerie);
+	
+		        consumoCombustivelDAO.update(consumoAtualizado);
+		        
+		        consumoCombustivelView.limparCampos();
+		        consumoCombustivelView.setEnableBotoes(false);
+		        atualizarListaConsumoCombustivel();
+		        consumoCombustivelView.mostrarMensagem("Carro editado com sucesso!");
+			}
 		}
 	}
 	
 	public class DeletarListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int numeroDeSerie = consumoCombustivelView.getViewNumeroDeSerieSelecionado();
-			consumoCombustivelDAO.delete(numeroDeSerie);
-			
-			consumoCombustivelView.limparCampos();
-			consumoCombustivelView.setEnableBotoes(false);
-			atualizarListaConsumoCombustivel();
-			consumoCombustivelView.mostrarMensagem("Carro excluído com sucesso!");
+			int respostaAdicionar = consumoCombustivelView.exibirPopUpConfirmacao("Deseja deletar o carro?", "Confirmação");
+			if (respostaAdicionar == 0) {
+				int numeroDeSerie = consumoCombustivelView.getViewNumeroDeSerieSelecionado();
+				consumoCombustivelDAO.delete(numeroDeSerie);
+				
+				consumoCombustivelView.limparCampos();
+				consumoCombustivelView.setEnableBotoes(false);
+				atualizarListaConsumoCombustivel();
+				consumoCombustivelView.mostrarMensagem("Carro deletado com sucesso!");
+			}
 		}
 	}
 }
