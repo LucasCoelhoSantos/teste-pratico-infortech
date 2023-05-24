@@ -1,14 +1,14 @@
 package view;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.JButton;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.BorderLayout;
@@ -96,7 +96,6 @@ public class ConsumoCombustivelView extends JFrame {
 
         // Painel principal
         JPanel painelPrincipal = new JPanel(new BorderLayout());
-        painelPrincipal.setSize(1280, 720);
         painelPrincipal.add(tabelaPanel, BorderLayout.NORTH);
         painelPrincipal.add(dadosPanel, BorderLayout.CENTER);
         painelPrincipal.add(crudPanel, BorderLayout.SOUTH);
@@ -105,6 +104,7 @@ public class ConsumoCombustivelView extends JFrame {
         
         setEnableBotoes(false);
         
+        // Listener para verificar uma seleção de linha na tabela
         tabela.getSelectionModel().addListSelectionListener(e -> {
             Object[] rowData = getSelectedRowData();
             if (rowData != null) {
@@ -139,6 +139,11 @@ public class ConsumoCombustivelView extends JFrame {
         JOptionPane.showMessageDialog(this, mensagem);
     }
     
+    public int exibirPopUpConfirmacao(String menssage, String titulo) {
+    	return JOptionPane.showConfirmDialog(this, menssage, titulo, JOptionPane.YES_NO_OPTION);
+    }
+    
+    // Método responsável por obter os dados da linha selecionada na tabela
     public Object[] getSelectedRowData() {
         int selectedRow = tabela.getSelectedRow();
         if (selectedRow != -1) {
