@@ -35,6 +35,7 @@ public class ConsumoCombustivelController {
 		consumoCombustivelView.actionListenerDeletar(new DeletarListener());
 		
 		consumoCombustivelView.executarView();
+		atualizarListaConsumoCombustivel();
 	}
 	
 	public void atualizarListaConsumoCombustivel() {
@@ -70,9 +71,11 @@ public class ConsumoCombustivelController {
 			else {
 				consumo.abastecer(litros);
 		        consumoCombustivelDAO.update(consumo);
+		        
 		        consumoCombustivelView.limparCampos();
 		        consumoCombustivelView.setEnableBotoes(false);
-		        consumoCombustivelView.mostrarMensagem("Abastecido com sucesso!");
+		        atualizarListaConsumoCombustivel();
+		        consumoCombustivelView.mostrarMensagem("Abastecido " + litros + " litros com sucesso!");
 			}
 		}
 	}
@@ -88,26 +91,30 @@ public class ConsumoCombustivelController {
             if (distancia == -1.0) {
             	consumoCombustivelView.mostrarMensagem("Valor inválido!");
             }
+            else if (distancia <= 0) {
+            	consumoCombustivelView.mostrarMensagem("Nada foi percorrido!");
+            }
             else if (litrosUtilizados > combustivelDisponivel) {
             	consumoCombustivelView.mostrarMensagem("Não há combustível suficiente para percorrer a distância.");
             } else {
             	consumo.setCombustivelDisponivel(combustivelDisponivel - litrosUtilizados);
             	consumoCombustivelDAO.update(consumo);
-            	consumoCombustivelView.mostrarMensagem("Percorreu a distância com sucesso! Litros utilizados: " + litrosUtilizados);
+            	
             	consumoCombustivelView.limparCampos();
             	consumoCombustivelView.setEnableBotoes(false);
+            	atualizarListaConsumoCombustivel();
+            	consumoCombustivelView.mostrarMensagem("Carro de " + consumo.getPortador() + " percorreu a distância com sucesso! Litros utilizados: " + litrosUtilizados);
             }
 		}
 	}
 	
 	public class VisualizarListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {
-	    	atualizarListaConsumoCombustivel();
-	    	
+		public void actionPerformed(ActionEvent e) {	    	
 	    	consumoCombustivelView.limparCampos();
 	    	consumoCombustivelView.setEnableBotoes(false);
-	    	consumoCombustivelView.mostrarMensagem("Busca concluída!");
+	    	atualizarListaConsumoCombustivel();
+	    	consumoCombustivelView.mostrarMensagem("Tabela recarregada!");
 		}
 	}
 	
@@ -115,11 +122,17 @@ public class ConsumoCombustivelController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ConsumoCombustivel consumo = new ConsumoCombustivel(consumoCombustivelView.getViewCapacidade(), consumoCombustivelView.getViewPortador());
-	    	consumoCombustivelDAO.inserir(consumo);
-	    	
-	    	consumoCombustivelView.limparCampos();
-	    	consumoCombustivelView.setEnableBotoes(false);
-	    	consumoCombustivelView.mostrarMensagem("Adicionado com sucesso!");
+			
+			if (consumoCombustivelView.getViewCapacidade() == -1.0) {
+				consumoCombustivelView.mostrarMensagem("Valor inválido!");
+			} else {
+		    	consumoCombustivelDAO.inserir(consumo);
+		    	
+		    	consumoCombustivelView.limparCampos();
+		    	consumoCombustivelView.setEnableBotoes(false);
+		    	atualizarListaConsumoCombustivel();
+		    	consumoCombustivelView.mostrarMensagem("Carro adicionado com sucesso!");
+			}
 		}
 	}
 	
@@ -134,7 +147,8 @@ public class ConsumoCombustivelController {
 	        
 	        consumoCombustivelView.limparCampos();
 	        consumoCombustivelView.setEnableBotoes(false);
-	        consumoCombustivelView.mostrarMensagem("Editado com sucesso!");
+	        atualizarListaConsumoCombustivel();
+	        consumoCombustivelView.mostrarMensagem("Carro editado com sucesso!");
 		}
 	}
 	
@@ -146,7 +160,8 @@ public class ConsumoCombustivelController {
 			
 			consumoCombustivelView.limparCampos();
 			consumoCombustivelView.setEnableBotoes(false);
-			consumoCombustivelView.mostrarMensagem("Excluído com sucesso!");
+			atualizarListaConsumoCombustivel();
+			consumoCombustivelView.mostrarMensagem("Carro excluído com sucesso!");
 		}
 	}
 }
